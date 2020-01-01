@@ -1,6 +1,13 @@
+# Visual Studio Code 
+.vs/*
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+# Intentionally include below patterns as comments
+# !.vscode/settings.json
+# !.vscode/tasks.json
+# !.vscode/launch.json
+# !.vscode/extensions.json
 *.code-workspace
+obj/
+bin/
+appsettings.Development.json
+appsettings.json
