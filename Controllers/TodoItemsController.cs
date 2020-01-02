@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -36,6 +37,19 @@ namespace TodoApi.Controllers
             if (todoItem == null)
             {
                 return NotFound();
+            }
+
+            SqlConnection connection = new SqlConnection();
+
+            connection.ConnectionString = "";
+
+            connection.Open();
+
+            string procedureName = "[dbo].[AddCustomers]";
+
+            using(SqlCommand command = new SqlCommand(procedureName, connection)) 
+            {
+                command.CommandType = System.Data.CommandType.StoredProcedure;
             }
 
             return todoItem;
