@@ -39,6 +39,8 @@ namespace TodoApi.Controllers
                 return NotFound();
             }
 
+            // TODO: DO A SEPARATE TUTE ON HOW TO INTERACT WITH SQL USING C#????
+
             SqlConnection connection = new SqlConnection();
 
             connection.ConnectionString = "";
