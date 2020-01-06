@@ -22,7 +22,8 @@ namespace TodoApi
         {
             // TODO: FOUND OUT IT WAS USING IN MEMORY DATABASE SO IT WAS NEVER GOING TO MAKE AN SQL CALLS 
             services.AddDbContext<TodoContext>(opt =>
-                opt.UseInMemoryDatabase("TodoList"));
+                opt.UseSqlServer("UseSqlServer"));
+
             services.AddControllers();
 
             // AUTO-GENERATED CODE

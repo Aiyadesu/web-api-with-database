@@ -32,29 +32,29 @@ namespace TodoApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TodoItem>> GetTodoItem(long id)
         {
-            var todoItem = await _context.TodoItem.FindAsync(id);
+            // var todoItem = await _context.TodoItem.FindAsync(id);
 
-            if (todoItem == null)
-            {
-                return NotFound();
-            }
-
-            // TODO: DO A SEPARATE TUTE ON HOW TO INTERACT WITH SQL USING C#????
+            // if (todoItem == null)
+            // {
+            //     return NotFound();
+            // }
 
             SqlConnection connection = new SqlConnection();
 
-            connection.ConnectionString = "";
+            connection.ConnectionString = "ConnectionString";
 
             connection.Open();
 
-            string procedureName = "[dbo].[AddCustomers]";
+            string procedureName = "[dbo].[Twenty]";
 
             using(SqlCommand command = new SqlCommand(procedureName, connection)) 
             {
                 command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                command.ExecuteNonQuery();            
             }
 
-            return todoItem;
+            return NotFound();
         }
 
         // PUT: api/TodoItems/5
