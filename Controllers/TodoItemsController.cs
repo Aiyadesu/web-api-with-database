@@ -41,17 +41,20 @@ namespace TodoApi.Controllers
 
             SqlConnection connection = new SqlConnection();
 
-            connection.ConnectionString = "ConnectionString";
+            connection.ConnectionString = Startup.BuildConnectionString();
 
             connection.Open();
 
-            string procedureName = "[dbo].[Twenty]";
+            string procedureName = "[dbo].[AddLoser]";
 
             using(SqlCommand command = new SqlCommand(procedureName, connection)) 
             {
                 command.CommandType = System.Data.CommandType.StoredProcedure;
 
-                command.ExecuteNonQuery();            
+                var customerId = new SqlParameter("@CustomerId", id);
+                command.Parameters.Add(customerId);
+
+                command.ExecuteNonQuery();
             }
 
             return NotFound();
