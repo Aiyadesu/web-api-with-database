@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 
+using System.IO;
 using System.Configuration;
 using System.Data.SqlClient;
 using TodoApi.Models;
@@ -71,27 +72,43 @@ namespace TodoApi
 
         public static string BuildConnectionString()
         {
+            // TODO: Re-evaluate this later to determine if this is the correct way to get the config
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+            IConfigurationRoot configuration = builder.Build();
+
+            var test = configuration.GetConnectionString("TodoContext");
+
             // Retrieve the partial connection string named databaseConnection
             // from the application's app.config or web.config file.
-            ConnectionStringSettings settings = ConfigurationManager.ConnectionStrings["tutorialDBConnectionString"];
+            ConnectionStringSettingsCollection settings = ConfigurationManager.ConnectionStrings;
 
-            if (null != settings)
+            if (settings != null)
             {
-                // Retrieve the partial connection string.
-                string connectString = settings.ConnectionString;
+                foreach(ConnectionStringSettings cs in settings)
+                {
+                    var name = cs.Name;
+                    var providerName = cs.ProviderName;
+                    var connectionString = cs.ConnectionString;
+                }
+                // // Retrieve the partial connection string.
+                // string connectString = settings.ConnectionString;
 
-                // Create a new SqlConnectionStringBuilder based on the
-                // partial connection string retrieved from the config file.
-                SqlConnectionStringBuilder builder =
-                    new SqlConnectionStringBuilder(connectString);
+                // // Create a new SqlConnectionStringBuilder based on the
+                // // partial connection string retrieved from the config file.
+                // SqlConnectionStringBuilder builder =
+                //     new SqlConnectionStringBuilder(connectString);
 
-                // // Supply the additional values.
-                // builder.DataSource = GetConnectionStringByName("DataSource"); 
-                // builder.UserID = GetConnectionStringByName("User ID");
-                // builder.Password = GetConnectionStringByName("Password");
+                // // // Supply the additional values.
+                // // builder.DataSource = GetConnectionStringByName("DataSource"); 
+                // // builder.UserID = GetConnectionStringByName("User ID");
+                // // builder.Password = GetConnectionStringByName("Password");
 
                 // return settings.ConnectionString;
-                return builder.ConnectionString;
+                // return builder.ConnectionString;
+                return test;
             }
 
             // TODO: Find out why the Configuration is not being loaded from the web.config
